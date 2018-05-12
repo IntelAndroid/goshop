@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>content</title>
+    <style>
+        .contents {
+            margin: 0 auto;
+            width: 90%;
+            height: 100%;
+            background: #ffffff;
+        }
+
+        .a_div {
+            width: 100%;
+            height: 31px;
+            background: #ffffff;
+
+        }
+
+        .a_div > .a_style {
+            display: block;
+            text-decoration: none;
+            color: #ededed;
+            font-size: 22px;
+            float: right;
+            margin: 5px;
+            background: #00b500;
+            border-radius: 5px;
+            width: 50px;
+            height: 30px;
+            text-align: center;
+            line-height: 30px;
+        }
+        .a_div > .a_style:active{
+            background: #0bee0c;
+        }
+    </style>
+</head>
+<body>
+<div class="a_div"><a href="/admin/article/q" class="a_style">X</a></div>
+<div class="contents">
+    {$content}
+</div>
+</body>
+</html>

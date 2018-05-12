@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Excel转vcf-腾宇出品</title>
+    <link rel="Bookmark" href="__PUBLIC__/favicon.ico" >
+    <link rel="Shortcut Icon" href="__PUBLIC__/favicon.ico" />
+    <link rel="stylesheet" type="text/css" href="http://fex.baidu.com/webuploader/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="http://fex.baidu.com/webuploader/css/bootstrap-theme.min.css">
+</head>
+<body>
+<div class="container" style="background: aliceblue">
+    <h1>Excel转vcf</h1>
+        <div class="form-group">
+            <label>选择Excel上传<span style="color:#db8059">{注：文件不能大于2M}</span></label>
+            <input type="file" name="file" class="btn btn-default" style="margin-bottom: 20px" id="file_upload">
+            <div style="width: 200px;height: 20px;background: #fff;border: 1px solid #eee;margin-bottom: 20px">
+                <div style="width:0%;height: 100%;background: #0d8aca" id="pro_id"></div>
+            </div>
+            <input type="button" class="btn btn-info" value="上传文件" onclick="upload()" id="but_id">
+        </div>
+    <div class="form-group">
+        <label>点击下载cvf文件</label>
+        <br/>
+        <input type="button" value="点击下载" class="btn btn-success" onclick="down()">
+    </div>
+    <div class="form-group">
+        <i id="ok_id">转化需要等待10秒在下载</i>
+        <p>注：此功能可以批量导入手机联系人</p>
+    </div>
+    <img src="/static/index/spad.png" alt="说明文档">
+</div>
+
+<script>
+    var file=null;
+    var input = document.getElementById("file_upload");
+    input.addEventListener('change',fileRead,false);
+    function fileRead() {
+        file=this.files[0];
+    }
+
+    function upload() {
+        var ids=document.getElementById('pro_id');
+        ids.style.width=0+'%';
+        ids.innerHTML=0+'%';
+        var xhr=new XMLHttpRequest();
+        var fd =new FormData();
+        fd.append('file',file);
+        xhr.upload.addEventListener('progress',uploadProgress,false);
+        xhr.open('POST','/cell/index/upload');
+        xhr.send(fd);
+    }
+    function uploadProgress(evt){
+        if (evt.lengthComputable) {
+            //evt.loaded：文件上传的大小   evt.total：文件总的大小
+            var complete = Math.round((evt.loaded) * 100 / evt.total);
+            //加载进度条，同时显示信息
+            var ids=document.getElementById('pro_id');
+            ids.style.width=complete+'%';
+            ids.innerHTML=complete+'%';
+        }
+    }
+    function down() {
+        window.location.href='/cell/index/download';
+    }
+
+</script>
+</body>
+</html>

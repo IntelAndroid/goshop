@@ -1,0 +1,40 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>banner查看</title>
+    <style>
+        .div_scroll{
+         text-align: center;
+            height: 320px;
+        }
+        .div_scroll>.img_w_h {
+            height:90%;
+            width: 90%;
+        }
+    </style>
+</head>
+<body>
+<div class="cl div_scroll">
+    <img class="img_w_h" src="{$details.path[0]}" alt="img"/>
+</div>
+<div class="pd-20">
+    <table class="table">
+        <tbody>
+        <tr>
+            <th class="text-r" width="80">标题：</th>
+            <td>{$details.title}</td>
+        </tr>
+        <tr>
+            <th class="text-r">内容：</th>
+            <td>{$details.content}</td>
+        </tr>
+        <tr>
+            <th class="text-r">时间：</th>
+            <td>{$details.time}</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

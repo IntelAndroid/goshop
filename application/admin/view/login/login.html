@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>系统登入</title>
+    {include file="login/meta"/}
+</head>
+<body>
+<header>
+    <a href="{$hosts}" class="logo"></a>
+    <div class="desc">欢迎登入</div>
+</header>
+<section>
+    <form id="form_id" action="#">
+        <div class="register-box">
+            <label for="u_a" class="username_label">用 户 名:
+                <input maxlength="20" type="text" placeholder="邮箱/手机号码/登录名" id="u_a">
+            </label>
+            <div class="tips">
+
+            </div>
+        </div>
+        <div class="register-box">
+            <label for="p_b" class="other_label">密 码:
+                <input maxlength="20" type="password" placeholder="密码" id="p_b">
+            </label>
+            <div class="tips">
+
+            </div>
+        </div>
+        <div class="register-box">
+            <label for="c_c" class="other_label">验 证 码
+                <input maxlength="20" type="text" placeholder="请输入验证码" id="c_c">
+            </label>
+            <span id="code"></span>
+            <div class="tips">
+
+            </div>
+        </div>
+        <div class="arguement">
+            <input type="checkbox" id="xieyi" checked="checked">阅读并同意
+            <a href="#">《隐私政策》</a>
+            <div class="tips">
+            </div>
+        </div>
+        <div class="submit_btn">
+            <button type="button" id="submit_btn">立 即 登 入</button>
+        </div>
+    </form>
+    <div id="bottom_id" >
+        <a href="/admin/login/at_reg">注册</a>
+        <span style="color: #2c2e34;font-size: 15px">&nbsp;&nbsp;|&nbsp;&nbsp;</span>
+        <a href="/admin/login/fend_pass">忘记密码</a>
+    </div>
+</section>
+{include file="login/footer"/}
+<script src="/static/admin/login/js/logins.js" type="text/javascript" charset="utf-8"></script>
+</body>
+</html>

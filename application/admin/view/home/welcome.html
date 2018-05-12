@@ -1,0 +1,153 @@
+﻿<!DOCTYPE HTML>
+<html>
+<head>
+{include file="public/meta"/}
+<title>我的桌面</title>
+</head>
+<body>
+<div class="page-container">
+	<p class="f-20 text-success">欢迎使用腾宇计算机 <span class="f-14">v5.1</span>后台管理！</p>
+	<p>登录次数：{$count_admin['today']} </p>
+	<p>上次登录IP：{$ip_config}  上次登录时间：{$login_time}</p>
+	<table class="table table-border table-bordered table-bg">
+		<thead>
+			<tr>
+				<th colspan="7" scope="col">信息统计</th>
+			</tr>
+			<tr class="text-c">
+				<th>统计</th>
+				<th>首页库</th>
+				<th>资讯库</th>
+				<th>产品库</th>
+				<th>联系库</th>
+				<th>管理员</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr class="text-c">
+				<td>总数</td>
+				<td>{$count_home['click']}</td>
+				<td>{$count_news['click']}</td>
+				<td>{$count_product['click']}</td>
+				<td>{$count_contact['click']}</td>
+				<td>{$count_admin['click']}</td>
+			</tr>
+			<tr class="text-c">
+				<td>今日</td>
+				<td>{$count_home['today']}</td>
+				<td>{$count_news['today']}</td>
+				<td>{$count_product['today']}</td>
+				<td>{$count_contact['today']}</td>
+				<td>{$count_admin['today']}</td>
+			</tr>
+			<tr class="text-c">
+				<td>昨日</td>
+				<td>{$count_home['yesterday']}</td>
+				<td>{$count_news['yesterday']}</td>
+				<td>{$count_product['yesterday']}</td>
+				<td>{$count_contact['yesterday']}</td>
+				<td>{$count_admin['yesterday']}</td>
+			</tr>
+			<tr class="text-c">
+				<td>本周</td>
+				<td>{$count_home['thisweek']}</td>
+				<td>{$count_news['thisweek']}</td>
+				<td>{$count_product['thisweek']}</td>
+				<td>{$count_contact['thisweek']}</td>
+				<td>{$count_admin['thisweek']}</td>
+			</tr>
+			<tr class="text-c">
+				<td>本月</td>
+				<td>{$count_home['thismonth']}</td>
+				<td>{$count_news['thismonth']}</td>
+				<td>{$count_product['thismonth']}</td>
+				<td>{$count_contact['thismonth']}</td>
+				<td>{$count_admin['thismonth']}</td>
+			</tr>
+		</tbody>
+	</table>
+	<table class="table table-border table-bordered table-bg mt-20">
+		<thead>
+			<tr>
+				<th colspan="2" scope="col">服务器信息</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<th width="30%">服务器计算机名</th>
+				<td><span style="color: #00993d"><?php echo gethostbyaddr($_SERVER['REMOTE_ADDR']); ?></span></td>
+			</tr>
+			<tr>
+				<td>服务器IP地址</td>
+				<td>{$ip_config}</td>
+			</tr>
+			<tr>
+				<td>服务器域名</td>
+				<td><?php echo $_SERVER['SERVER_NAME'];?></td>
+			</tr>
+			<tr>
+				<td>服务器端口 </td>
+				<td><?php echo $_SERVER['SERVER_PORT'];?></td>
+			</tr>
+			<tr>
+				<td>服务器版本 </td>
+				<td><?php $os = explode(" ", php_uname()); echo $os[0];?> &nbsp;内核版本：<?php if('/'==DIRECTORY_SEPARATOR){echo $os[2];}else{echo $os[1];} ?><?php echo $_SERVER['SERVER_SOFTWARE'];?></td>
+			</tr>
+			<tr>
+				<td>本文件所在文件夹 </td>
+				<td><?php echo $_SERVER['DOCUMENT_ROOT']?str_replace('\\','/',$_SERVER['DOCUMENT_ROOT']):str_replace('\\','/',dirname(__FILE__));?></td>
+			</tr>
+			<tr>
+				<td>服务器操作系统 </td>
+				<td><?php $os = explode(" ", php_uname()); echo $os[0];?></td>
+			</tr>
+			<tr>
+				<td>系统所在文件夹 </td>
+				<td>C:\WINDOWS\system32</td>
+			</tr>
+			<tr>
+				<td>服务器脚本超时时间 </td>
+				<td><?php echo get_cfg_var("max_execution_time");?>秒</td>
+			</tr>
+			<tr>
+				<td>服务器的语言种类 </td>
+				<td><?php echo getenv("HTTP_ACCEPT_LANGUAGE");?></td>
+			</tr>
+			<tr>
+				<td>服务器当前时间 </td>
+				<td><?php echo date('Y-m-d H:i:s', time());?></td>
+			</tr>
+			<tr>
+				<td>访问浏览器类型</td>
+				<td>{$see_type}</td>
+			</tr>
+			<tr>
+				<td>服务器上次启动到现在已运行 </td>
+				<td>{$count_time}分钟</td>
+			</tr>
+			<tr>
+				<td>当前系统用户名 </td>
+				<td><?php if('/'==DIRECTORY_SEPARATOR ){echo $os[1];}else{echo $os[2];} ?></td>
+			</tr>
+			<tr>
+				<td>当前系统内存</td>
+				<td>总内存:{$mem_total}<div style="width:300px;height: 20px;background: rgb(86,228,255);text-align: center">
+					<div style="width:{$mem_prop}%;height: 100%;background: #00b8ff">
+						<span style="color: #fff">可用{$mem_free}</span>
+					</div>
+				</div></td>
+			</tr>
+		</tbody>
+	</table>
+</div>
+<footer class="footer mt-20">
+	<div class="container">
+		<p>感谢jQuery、layer、laypage、Validform、UEditor、My97DatePicker、iconfont、Datatables、WebUploaded、icheck、highcharts、bootstrap-Switch H-ui.admin<br>
+			Copyright©2014-2017 腾宇计算机所有 鲁ICP备17027470 <br>
+			本后台系统由<a href="http://www.h-ui.net/" target="_blank" title="前端框架">前端框架</a>提供前端技术支持</p>
+	</div>
+</footer>
+<script type="text/javascript" src="/static/admin/lib/jquery/1.9.1/jquery.min.js"></script>
+<script type="text/javascript" src="/static/admin/static/h-ui/js/H-ui.min.js"></script>
+</body>
+</html>

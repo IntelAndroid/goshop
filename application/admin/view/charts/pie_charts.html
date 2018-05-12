@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>饼状图</title>
+    <link rel="stylesheet" type="text/css" href="/static/admin/lib/charts/css/normalize.css" />
+    <link rel="stylesheet" type="text/css" href="/static/admin/lib/charts/css/default.css"/>
+    <style>
+        .div_background{
+            width: 10px;
+            height: 10px;
+            display: block;
+            float: left;
+        }
+    </style>
+</head>
+<body>
+<div class="htmleaf-container">
+<div style="float: left;margin: 5px 30px">
+    <p style="font-size: 12px;color: #61656b"><span class="div_background" style="background:#F7464A"></span>&nbsp;&nbsp;访问总量</p>
+    <p style="font-size: 12px;color: #61656b"><span class="div_background" style="background:#46BFBD"></span>&nbsp;&nbsp;本周访问量</p>
+    <p style="font-size: 12px;color: #61656b"><span class="div_background" style="background:#FDB45C"></span>&nbsp;&nbsp;上周访问量</p>
+    <p style="font-size: 12px;color: #61656b"><span class="div_background" style="background:#949FB1"></span>&nbsp;&nbsp;本月访问量</p>
+    <p style="font-size: 12px;color: #61656b"><span class="div_background" style="background:#4D5360"></span>&nbsp;&nbsp;昨日访问量</p>
+
+</div>
+    <div class="htmleaf-content">
+        <div id="canvas-holder">
+            <canvas id="chart-area" width="400" height="400"></canvas>
+        </div>
+    </div>
+
+</div>
+
+<script src="/static/admin/lib/charts/js/Chart.min.js"></script>
+<script>
+    var pieData = [
+        {
+            value: "{$mon['click']}",
+            color:"#F7464A",
+            highlight: "#FF5A5E",
+            label: "访问总量"
+        },
+        {
+            value: "{$mon['thisweek']}",
+            color: "#46BFBD",
+            highlight: "#5AD3D1",
+            label: "本周访问量"
+        },
+        {
+            value: "{$mon['lastweek']}",
+            color: "#FDB45C",
+            highlight: "#FFC870",
+            label: "上周访问量"
+        },
+        {
+            value: "{$mon['thismonth']}",
+            color: "#949FB1",
+            highlight: "#A8B3C5",
+            label: "本月访问量"
+        },
+        {
+            value: "{$mon['yesterday']}",
+            color: "#4D5360",
+            highlight: "#616774",
+            label: "昨日访问量"
+        }
+
+    ];
+
+    window.onload = function(){
+        var ctx = document.getElementById("chart-area").getContext("2d");
+        window.myPie = new Chart(ctx).Pie(pieData);
+    };
+
+
+</script>
+
+</body>
+</html>

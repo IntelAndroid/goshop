@@ -1,0 +1,89 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>添加产品</title>
+    {include file="public/meta"/}
+    {include file="public/upload_css"/}
+</head>
+<body>
+<div class="page-container">
+    <form action="{$save_url}" method="post" class="form form-horizontal" id="form-article-add"
+          enctype="application/x-www-form-urlencoded">
+        <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-2">标题：</label>
+            <div class="formControls col-xs-8 col-sm-9">
+                <input type="text" class="input-text" value="" placeholder="输入标题" name="banner_title">
+            </div>
+        </div>
+        <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>类型：</label>
+            <div class="formControls col-xs-8 col-sm-9">
+             <span class="select-box">
+				<select name="banner_type" class="select">
+					<option value="1">中首页轮播</option>
+					<option value="2">英首页轮播</option>
+                    <option value="3">中手机轮播</option>
+                    <option value="4">英手机轮播</option>
+				</select>
+				</span>
+            </div>
+        </div>
+        <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>图片：</label>
+            <div class="formControls col-xs-8 col-sm-9" id="arr_clear">
+                {include file="public/upload_html"/}
+            </div>
+        </div>
+        <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-2">内容：</label>
+            <div class="formControls col-xs-8 col-sm-9">
+                <div id="editor" type="text/plain" style="width:100%;height:400px;" name="editor_content"></div>
+            </div>
+        </div>
+        <div class="row cl">
+            <div class="col-xs-8 col-sm-9 col-xs-offset-4 col-sm-offset-2">
+                <button class="btn btn-primary radius" type="submit"><i
+                        class="Hui-iconfont">&#xe632;</i> 提交保存
+                </button>
+                <button onClick="layer_close();" class="btn btn-default radius" type="button">
+                    &nbsp;&nbsp;取消&nbsp;&nbsp;
+                </button>
+            </div>
+        </div>
+    </form>
+</div>
+{include file="public/footer"/}
+{include file="public/upload_js"/}
+<!--请在下方写此页面业务相关的脚本-->
+<script type="text/javascript" src="/static/admin/lib/jquery.validation/1.14.0/jquery.validate.min.js"></script>
+<script type="text/javascript" src="/static/admin/lib/jquery.validation/1.14.0/additional-methods.min.js"></script>
+<script type="text/javascript" src="/static/admin/lib/jquery.validation/1.14.0/messages_zh.js"></script>
+<script type="text/javascript" src="/static/admin/lib/ueditor/1.4.3/ueditor.config.js"></script>
+<script type="text/javascript" src="/static/admin/lib/ueditor/1.4.3/ueditor.all.min.js"></script>
+<script type="text/javascript" src="/static/admin/lib/ueditor/1.4.3/lang/zh-cn/zh-cn.js"></script>
+<script type="text/javascript">
+    $(function () {
+        UE.getEditor('editor', {
+            toolbars: [
+                ['fullscreen', 'source', 'undo', 'redo', 'bold', 'fontfamily', 'fontsize', 'justifyleft', 'justifyright', 'justifycenter', 'justifyjustify', 'forecolor', 'link', 'unlink']
+            ],
+            initialFrameHeight: 100
+        });
+        //验证
+        $('#form-article-add').validate({
+            rules: {
+                banner_title: {
+                    maxlength: 50
+                },
+                banner_type: {
+                    required: true
+                }
+            },
+            submitHandler: function (form) {
+                form.submit();
+            }
+        });
+    });
+</script>
+</body>
+</html>

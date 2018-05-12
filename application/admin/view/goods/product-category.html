@@ -1,0 +1,228 @@
+﻿<!DOCTYPE HTML>
+<html>
+<head>
+    <title>产品分类</title>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1,minimum-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="/static/admin/lib/ztree/css/bootstrapstyle.css" type="text/css">
+    <link rel="stylesheet" href="/static/admin/cate/css/cate.css" type="text/css">
+</head>
+<body>
+<div class="container">
+    <div class="row">
+        <div class="left-box">
+            <h1>分类管理</h1>
+            <button onclick="beforeGetChecked()" class="del-button">批量删除</button>
+            <button onclick="window.location.replace(location.href)" class="del-button" style="background: #17b4fb">刷新
+            </button>
+            <ul id="treeDemo" class="ztree"></ul>
+        </div>
+        <div class="right-box">
+            <ul>
+                <li>分类名称:<span class="c-red">*</span><input type="text" name="cate_name" class="cate-name"
+                                                            placeholder="名称"></li>
+                <li>分类栏目:&nbsp;<span class="c-red" style="padding: 5px">*</span>
+                    <select class="cate-id" name="pid" id="select_cate_id">
+                        <option value="0" selected>顶级分类</option>
+                        {foreach $data as $vo}
+                        <option value="{$vo.id},{$vo.pid}">{$vo.level}级分类&nbsp;{$vo.name}</option>
+                        {/foreach}
+                    </select>
+                </li>
+                <li>分类备注:<span class="c-red">&nbsp;</span><input type="text" class="text-txt" placeholder="备注"></li>
+                <li><input type="button" class="button-sub" onclick="submit_click()" value="提交"></li>
+            </ul>
+        </div>
+    </div>
+</div>
+<script type="text/javascript" src="/static/admin/lib/jquery/1.9.1/jquery.min.js"></script>
+<script type="text/javascript" src="/static/admin/lib/ztree/js/jquery.ztree.all-3.5.min.js"></script>
+<script type="text/javascript" src="/static/admin/lib/layer/2.4/layer.js"></script>
+<script type="text/javascript">
+    var zNodes;
+    var newCount = 1;
+    var setting = {
+        view: {addHoverDom: addHoverDom, removeHoverDom: removeHoverDom, selectedMulti: false},
+        check: {enable: true},
+        data: {simpleData: {enable: true, idKey: "id", pIdKey: "pid"}},
+        edit: {enable: true},
+        callback: {beforeRemove: beforeRemove, beforeRename: beforeRename}
+    };
+
+    function addHoverDom(treeId, treeNode) {
+        var sObj = $("#" + treeNode.tId + "_span");
+        if (treeNode.editNameFlag || $("#addBtn_" + treeNode.tId).length > 0) return;
+        var addStr = "<span class='button add' id='addBtn_" + treeNode.tId
+            + "' title='add node' onfocus='this.blur();'></span>";
+        sObj.after(addStr);
+        var btn = $("#addBtn_" + treeNode.tId);
+        if (btn) btn.bind("click", function () {
+            var zTree = $.fn.zTree.getZTreeObj("treeDemo");
+            zTree.addNodes(treeNode, {id: (100 + newCount), pId: treeNode.id, name: "新分类" + (newCount++)});
+            if (treeNode.pid === null) {
+                add_nodes({'cate_name': "新分类" + (newCount++), 'pid': treeNode.id + ',' + 0}, function (data) {
+                    if (data.code === 200) {
+                        layer.msg(data.message, {icon: 1, time: 1000});
+
+                    } else {
+                        layer.msg(data.message, {icon: 2, time: 1000});
+                    }
+                });
+            } else {
+                add_nodes({
+                    'cate_name': "新分类" + (newCount++),
+                    'pid': treeNode.id + ',' + treeNode.pid
+                }, function (data) {
+                    if (data.code === 200) {
+                        layer.msg(data.message, {icon: 1, time: 1000});
+
+                    } else {
+                        layer.msg(data.message, {icon: 2, time: 1000});
+                    }
+                });
+            }
+            return false;
+        });
+    };
+
+    function removeHoverDom(treeId, treeNode) {
+        $("#addBtn_" + treeNode.tId).unbind().remove();
+    };
+
+    //删除节点
+    function beforeRemove(treeId, treeNode) {
+        if (treeNode.isParent) {
+            return false;
+        } else {
+            $.ajax({
+                url: "{:URL('click_data_del')}",
+                type: 'GET',
+                data: {'id': treeNode.id},
+                dataType: 'json',
+                success: function (data) {
+                    if (data.code === 200) {
+                        layer.msg(data.message, {time: 1000, icon: 1});
+                    } else {
+                        layer.msg(data.message);
+                    }
+                },
+                error: function (e) {
+                    layer.msg('数据加载错误');
+                }
+            });
+            return true;
+        }
+    }
+
+    //编辑节点
+    function beforeRename(treeId, treeNode, newName) {
+
+        $.ajax({
+            url: "{:URL('cate_edit_data')}",
+            type: 'POST',
+            data: {'id': treeNode.id, 'name': newName},
+            dataType: 'json',
+            success: function (data) {
+                if (data.code === 200) {
+                    layer.msg(data.message, {time: 1000, icon: 1});
+                } else {
+                    layer.msg(data.message);
+                }
+            },
+            error: function (e) {
+                layer.msg('数据加载错误');
+            }
+        });
+    }
+
+    //获取选项
+    function beforeGetChecked() {
+        var getId = '';
+        var zTree = $.fn.zTree.getZTreeObj("treeDemo");
+        var nodes = zTree.getCheckedNodes(true);
+        for (var i = 0; i < nodes.length; i++) {
+            getId += nodes[i].id + ',';
+            $("#" + nodes[i].tId + '_span').remove();
+        }
+        $.ajax({
+            url: "{:URL('cate_all_del')}",
+            type: 'GET',
+            data: {'ids': getId},
+            dataType: 'json',
+            success: function (data) {
+                if (data.code === 200) {
+                    layer.msg(data.message, {time: 1000, icon: 1});
+                } else {
+                    layer.msg(data.message);
+                }
+            },
+            error: function (e) {
+                layer.msg('数据加载错误');
+            }
+        });
+    }
+
+    //添加节点
+    function add_nodes(data, success) {
+        $.ajax({
+            //几个参数需要注意一下
+            type: "POST",//方法类型
+            dataType: "json",//预期服务器返回的数据类型
+            url: "/admin/goods/cate_data_save",//url
+            data: data,
+            success: success,
+            error: function () {
+                layer.msg('服务器繁忙!');
+            }
+        });
+    }
+
+    //获取展示数组
+    function getLoad() {
+        $.ajax({
+            url: "{:URL('show_data_free')}",
+            type: 'GET',
+            async: false,
+            dataType: 'json',
+            success: function (data) {
+                if (data !== '') {
+                    zNodes = data;
+                } else {
+                    layer.msg('数据加载错误');
+                }
+            },
+            error: function (e) {
+                layer.msg('数据加载错误');
+            }
+        });
+    }
+
+    $(document).ready(function () {
+        getLoad();
+        $.fn.zTree.init($("#treeDemo"), setting, zNodes);
+
+    });
+
+    //提交数据
+    function submit_click() {
+        var name = $("input").eq(0).val();
+        var pid = $("#select_cate_id").val();
+        if (name === '') {
+            layer.msg('名称不为空', {icon: 2, time: 1000});
+        } else {
+            add_nodes({'cate_name': name, 'pid': pid}, function (data) {
+                if (data.code === 200) {
+                    layer.msg(data.message, {icon: 1, time: 500},function () {
+                        getLoad();
+                        $.fn.zTree.init($("#treeDemo"), setting, zNodes);
+                    });
+                } else {
+                    layer.msg(data.message, {icon: 2, time: 1000});
+                }
+            });
+        }
+    }
+</script>
+
+</body>
+</html>

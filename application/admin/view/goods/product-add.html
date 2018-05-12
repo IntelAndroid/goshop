@@ -1,0 +1,213 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>添加产品</title>
+    {include file="public/meta"/}
+    {include file="public/upload_css"/}
+</head>
+<body>
+<div class="page-container">
+    <form class="form form-horizontal" id="form-article-add" enctype="application/x-www-form-urlencoded">
+        <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>产品标题：</label>
+            <div class="formControls col-xs-8 col-sm-9">
+                <input type="text" class="input-text" value="" placeholder="输入标题" name="product_title">
+            </div>
+        </div>
+        <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>分类栏目：</label>
+            <div class="formControls col-xs-8 col-sm-9"> <span class="select-box">
+				<select name="cate_select" class="select">
+					<option value="0" selected="selected">顶级分类</option>
+                    {foreach $data as $vo}
+                    <option value="{$vo.id},{$vo.pid}">{$vo.level}级分类&nbsp;{$vo.name}</option>
+                    {/foreach}
+				</select>
+				</span></div>
+        </div>
+        <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>产品现价：</label>
+            <div class="formControls col-xs-8 col-sm-9">
+                <input type="number" name="display_price" placeholder="输入数字" value="" class="input-text">
+                元
+            </div>
+        </div>
+        <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>市场价格：</label>
+            <div class="formControls col-xs-8 col-sm-9">
+                <input type="number" name="market_price" placeholder="输入数字" value="" class="input-text" >
+                元
+            </div>
+        </div>
+        <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>库存量：</label>
+            <div class="formControls col-xs-8 col-sm-9">
+                <input type="number" name="inventory" placeholder="输入数字" value="" class="input-text" >
+                件
+            </div>
+        </div>
+        <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-2">产品属性：</label>
+            <div class="formControls col-xs-8 col-sm-9">
+                <input type="radio" id="checkbox-11" name="attributes" value="1" checked="checked">
+                <label for="checkbox-11">1.推荐</label>
+                <input type="radio" id="checkbox-12" name="attributes" value="2">
+                <label for="checkbox-12">2.新上</label>
+                <input type="radio" id="checkbox-13" name="attributes" value="3">
+                <label for="checkbox-13">3.热卖</label>
+                <input type="radio" id="checkbox-14" name="attributes" value="4">
+                <label for="checkbox-14">4.促销</label>
+                <input type="radio" id="checkbox-15" name="attributes" value="5">
+                <label for="checkbox-15">5.包邮</label>
+                <input type="radio" id="checkbox-16" name="attributes" value="6">
+                <label for="checkbox-16">6.限时卖</label>
+                <input type="radio" id="checkbox-17" name="attributes" value="7">
+                <label for="checkbox-17">7.不参与会员折扣</label>
+            </div>
+        </div>
+        <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-2">价格单位：</label>
+            <div class="formControls col-xs-8 col-sm-9"> <span class="select-box">
+				<select class="select" name="unit_select">
+					<option>请选择</option>
+                    <option selected="selected" value="¥">¥</option>
+                    <option value="元">元</option>
+                    <option value="$">$</option>
+					<option value="件">件</option>
+					<option value="斤">斤</option>
+					<option value="KG">KG</option>
+					<option value="吨">吨</option>
+					<option value="套">套</option>
+					<option value="个">个</option>
+					<option value="量">量</option>
+					<option value="辆">辆</option>
+				</select>
+				</span></div>
+        </div>
+        <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-2">限制购买量：</label>
+            <div class="formControls col-xs-8 col-sm-9">
+                <input type="text" name="limit_buy" placeholder="输入数字" value="" class="input-text" style=" width:90%">
+                件
+            </div>
+        </div>
+        <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-2">已经购买量：</label>
+            <div class="formControls col-xs-8 col-sm-9">
+                <input type="text" name="already_buy" placeholder="输入数字" value="" class="input-text" style="width:90%">
+                件
+            </div>
+        </div>
+        <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-2">运费：</label>
+            <div class="formControls col-xs-8 col-sm-9">
+                <input type="text" name="freight"
+                       id="datemin" class="input-text Wdate" placeholder="输入数字" style="width:90%;">
+                件
+            </div>
+        </div>
+        <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-2">排序值：</label>
+            <div class="formControls col-xs-8 col-sm-9">
+                <input type="text" name="sort_value"
+                       id="datemax" class="input-text Wdate" placeholder="输入数字" style="width:70%;">
+                <label style="color: #838383">排序数字越低，排序越高</label>
+            </div>
+        </div>
+        <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-2">是否上架：</label>
+            <div class="formControls col-xs-8 col-sm-9">
+                <input type="radio" id="checkbox-31" name="up_rack" value="1" checked="checked">
+                <label for="checkbox-31">上架</label>
+                <input type="radio" id="checkbox-32" name="up_rack" value="2">
+                <label for="checkbox-32">下架</label>
+            </div>
+        </div>
+        <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-2"><span class="c-green">*</span>产品链接：</label>
+            <div class="formControls col-xs-8 col-sm-9">
+                <input type="text" class="input-text" placeholder="如:http://www.baidu.com" name="product_link">
+            </div>
+        </div>
+        <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-2"><span class="c-green">*</span>产品简述：</label>
+            <div class="formControls col-xs-8 col-sm-9">
+                <textarea name="product_sketch" class="textarea" placeholder="说点什么...最少输入10个字符"></textarea>
+                <p class="textarea-numberbar"><em class="textarea-length">0</em>/200</p>
+            </div>
+        </div>
+        <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>上传图片：</label>
+            <div class="formControls col-xs-8 col-sm-9" id="arr_clear">
+                {include file="public/upload_html"/}
+            </div>
+        </div>
+        <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>详细内容：</label>
+            <div class="formControls col-xs-8 col-sm-9">
+                <div id="editor" type="text/plain" style="width:100%;height:400px;" name="editor_content"></div>
+            </div>
+        </div>
+        <div class="row cl">
+            <div class="col-xs-8 col-sm-9 col-xs-offset-4 col-sm-offset-2">
+                <button class="btn btn-primary radius" type="submit"><i
+                        class="Hui-iconfont">&#xe632;</i> 提交保存
+                </button>
+                <button onClick="layer_close();" class="btn btn-default radius" type="button">
+                    &nbsp;&nbsp;取消&nbsp;&nbsp;
+                </button>
+            </div>
+        </div>
+    </form>
+</div>
+{include file="public/footer"/}
+{include file="public/upload_js"/}
+<!--请在下方写此页面业务相关的脚本-->
+<script type="text/javascript" src="/static/admin/lib/jquery.validation/1.14.0/jquery.validate.min.js"></script>
+<script type="text/javascript" src="/static/admin/lib/jquery.validation/1.14.0/additional-methods.min.js"></script>
+<script type="text/javascript" src="/static/admin/lib/jquery.validation/1.14.0/messages_zh.js"></script>
+<script type="text/javascript" src="/static/admin/lib/ueditor/1.4.3/ueditor.config.js"></script>
+<script type="text/javascript" src="/static/admin/lib/ueditor/1.4.3/ueditor.all.min.js"></script>
+<script type="text/javascript" src="/static/admin/lib/ueditor/1.4.3/lang/zh-cn/zh-cn.js"></script>
+<script type="text/javascript">
+    //富文本
+    $(function () {
+        UE.getEditor('editor');
+        //验证
+        $('#form-article-add').validate({
+            rules: {
+                product_title: {required: true, maxlength: 50},
+                cate_select: {required: true},
+                display_price: {required: true, digits: true, maxlength: 6},
+                market_price: {required: true, digits: true, maxlength: 6},
+                sort_value: {digits: true, maxlength: 6},
+                freight: {digits: true, maxlength: 6},
+                already_buy: {digits: true, maxlength: 6},
+                limit_buy: {digits: true, maxlength: 6},
+                inventory: {required: true, digits: true, maxlength: 6},
+                product_link: {minlength: 12},
+                product_sketch: {minlength: 10, maxlength: 200}
+            },
+            onkeyup: false,
+            focusCleanup: true,
+            submitHandler: function (form) {
+                $(form).ajaxSubmit({
+                    url: '{$save_url}', type: "POST", dataType: "json",
+                    success: function (data) {
+                        if (data.code = 200) {
+                            layer.msg(data.message, {icon: 1, time: 1000});
+                        } else {
+                            layer.msg(data.message, {icon: 2, time: 1000});
+                        }
+                    },
+                    error: function () {
+                        layer.msg('服务繁忙!');
+                    }
+                });
+            }
+        });
+    });
+
+</script>
+</body>
+</html>

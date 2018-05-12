@@ -1,0 +1,13 @@
+<IfModule mod_rewrite.c>
+  Options +FollowSymlinks -Multiviews
+  RewriteEngine On
+  RewriteCond %{REQUEST_METHOD} ^TRACK
+  RewriteRule .* - [F]
+  #RewriteCond %{HTTPS} off
+  #RewriteRule .* https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+  #RewriteCond %{HTTP_HOST} !^www\. [NC]
+  #RewriteRule .* https://www.%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteRule ^(.*)$ index.php/$1 [QSA,PT,L]
+</IfModule>

@@ -1,0 +1,128 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>添加产品</title>
+    {include file="public/meta"/}
+    {include file="public/upload_css"/}
+</head>
+<body>
+<div class="page-container">
+    <form action="{$save_url}" method="post" class="form form-horizontal" id="form-article-add" enctype="application/x-www-form-urlencoded" >
+        <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>文章标题：</label>
+            <div class="formControls col-xs-8 col-sm-9">
+                <input type="text" class="input-text" value="" placeholder="输入标题" name="article_title">
+            </div>
+        </div>
+        <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>文章类型：</label>
+            <div class="formControls col-xs-8 col-sm-9">
+                <input type="radio" id="checkbox-11" name="article_type" value="1" checked="checked">
+                <label for="checkbox-11">&nbsp;1.新闻&nbsp;</label>
+                <input type="radio" id="checkbox-12" name="article_type" value="2">
+                <label for="checkbox-12">&nbsp;2.资讯&nbsp;</label>
+            </div>
+        </div>
+        <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-2">作者邮箱：</label>
+            <div class="formControls col-xs-8 col-sm-9">
+                <input type="text" name="author_email" placeholder="输入邮箱" value="" class="input-text">
+            </div>
+        </div>
+        <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-2">文章来源：</label>
+            <div class="formControls col-xs-8 col-sm-9">
+                <input type="text" name="article_link" placeholder="如:http://www.baidu.com" class="input-text">
+            </div>
+        </div>
+        <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>发布日期：</label>
+            <div class="formControls col-xs-8 col-sm-9">
+                <input type="text" name="article_time" placeholder="输入发布日期" value="" class="input-text img_background_time"  id="time_date_id">
+            </div>
+        </div>
+        <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>文章摘要：</label>
+            <div class="formControls col-xs-8 col-sm-9">
+                <textarea name="article_abstract"  class="textarea" placeholder="说点什么...最少输入10个字符"></textarea>
+                <p class="textarea-numberbar"><em class="textarea-length">0</em>/200</p>
+            </div>
+        </div>
+        <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>上传图片：</label>
+            <div class="formControls col-xs-8 col-sm-9" id="arr_clear">
+                {include file="public/upload_html"/}
+            </div>
+        </div>
+        <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>详细内容：</label>
+            <div class="formControls col-xs-8 col-sm-9">
+                <div id="editor" type="text/plain" style="width:100%;height:400px;" name="editor_content"></div>
+            </div>
+        </div>
+        <div class="row cl">
+            <div class="col-xs-8 col-sm-9 col-xs-offset-4 col-sm-offset-2">
+                <button class="btn btn-primary radius" type="submit"><i
+                        class="Hui-iconfont">&#xe632;</i> 提交保存
+                </button>
+                <button onClick="layer_close();" class="btn btn-default radius" type="button">
+                    &nbsp;&nbsp;取消&nbsp;&nbsp;
+                </button>
+            </div>
+        </div>
+    </form>
+</div>
+{include file="public/footer"/}
+{include file="public/upload_js"/}
+<!--请在下方写此页面业务相关的脚本-->
+<script type="text/javascript" src="/static/admin/lib/jquery.validation/1.14.0/jquery.validate.min.js"></script>
+<script type="text/javascript" src="/static/admin/lib/jquery.validation/1.14.0/additional-methods.min.js"></script>
+<script type="text/javascript" src="/static/admin/lib/jquery.validation/1.14.0/messages_zh.js"></script>
+<script type="text/javascript" src="/static/admin/lib/ueditor/1.4.3/ueditor.config.js"></script>
+<script type="text/javascript" src="/static/admin/lib/ueditor/1.4.3/ueditor.all.min.js"></script>
+<script type="text/javascript" src="/static/admin/lib/ueditor/1.4.3/lang/zh-cn/zh-cn.js"></script>
+<script type="text/javascript" src="/static/admin/lib/laydate/laydate.js"></script>
+<script type="text/javascript">
+    //富文本
+    $(function () {
+        var ue = UE.getEditor('editor');
+        //执行一个laydate实例
+        laydate.render({
+            elem: '#time_date_id', //指定元素
+            calendar: true,
+            format:'yyyy-MM-dd'
+        });
+        //验证
+        $('#form-article-add').validate({
+            rules: {
+                article_title: {
+                    required: true,
+                    maxlength:50
+                },
+                article_type:{
+                    required: true,
+                },
+                author_email:{
+                    email:true
+                },
+                article_sources:{
+                    url:true
+                },
+                article_time:{
+                    required:true,
+                    date:true
+                },
+                article_abstract:{
+                    required:true,
+                    maxlength:200
+                }
+            },
+            submitHandler:function(form){
+                form.submit();
+            }
+        });
+    });
+
+</script>
+</body>
+</html>
