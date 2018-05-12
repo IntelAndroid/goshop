@@ -12,7 +12,6 @@ class Index extends Base
     //初始页
     public function index()
     {
-        isNotLogin();
         $this->assign('name', isset($_SESSION['user_login'])?$_SESSION['user_login']:'ADMIN');
         Counts::install()->setCount('admin_count.dat');
         return $this->fetch('/home/index');
@@ -21,7 +20,7 @@ class Index extends Base
 
     //欢迎页
     public function welcome()
-    {isNotLogin();
+    {
         //获取原始数组
 //        $sysInfo = SaveData::install()->setSpanCache(function () {
 //            return ServerInfo::install()->getSystemInfo();
