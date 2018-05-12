@@ -31,11 +31,12 @@ class Login extends Controller
     {
         $obj = json_decode(input('data'));
         if (empty($obj)) {
-            alertMes('没有登陆', '/admin/login/in_v');
+            $this->redirect(url('/admin/login/in_v'));
             exit;
         }
 
         if (!empty(submit_input($obj->ver))) {
+            $user_id=1;
             try {
                 //判断用户名是不是邮箱登入
                 if (judgeEmail($obj->name)) {
@@ -46,6 +47,7 @@ class Login extends Controller
                         exit;
                     } else {
                         $user = Admin::get(['email' => submit_input($obj->name)]);
+                        $user_id=$user->id;
                     }
                 } else {
                     //不是邮箱
@@ -55,6 +57,7 @@ class Login extends Controller
                         exit;
                     } else {
                         $user = Admin::get(['user_name' => submit_input($obj->name)]);
+                        $user_id=$user->id;
                     }
                 }
             } catch (DbException $e) {
@@ -62,6 +65,7 @@ class Login extends Controller
             }
             if (submit_input($obj->sha1) == $user->password) {
                 $_SESSION['user_login'] = submit_input($obj->name);
+                $_SESSION['uid'] = $user_id;
                 echo messageJson(200, 'OK', null);
                 exit;
             } else {
@@ -91,7 +95,7 @@ class Login extends Controller
     {
         $obj = json_decode(input('data'));
         if (empty($obj)) {
-            alertMes('没有登陆', '/admin/login/in_v');
+            $this->redirect(url('/admin/login/in_v'));
             exit;
         }
         if (empty($obj->ver)) {
@@ -156,7 +160,7 @@ class Login extends Controller
     public function email_msg()
     {
         if (empty(input('code'))) {
-            alertMes('没有登陆', '/admin/login/in_v');
+            $this->redirect(url('/admin/login/in_v'));
             exit;
         }
         $json = json_decode(input('data'));
@@ -232,7 +236,8 @@ class Login extends Controller
     public function out_in()
     {
         unset($_SESSION['user_login']);
-        isNotLogin();
+        unset($_SESSION['uid']);
+        $this->redirect(url('/admin/login/in_v'));
     }
 
 
