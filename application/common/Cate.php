@@ -43,7 +43,7 @@ class Cate
     //获取排序所有分类
     public function getAllCate($conn, $tableName, $where)
     {
-        $sql = "select id,pid,name,path,level,concat(path, ',' ,id) as paths from $tableName where $where order by paths asc";
+        $sql = "select id,pid,name,path,level,concat(path, ',' ,id) as paths from $tableName where $where order by path asc";
         $res = mysqli_query($conn, $sql);
         $result = array();
         while ($row = mysqli_fetch_assoc($res)) {
