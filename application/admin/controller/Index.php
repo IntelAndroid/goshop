@@ -4,11 +4,10 @@ namespace app\admin\controller;
 
 
 use app\common\Counts;
-use app\common\SaveData;
 use app\common\ServerInfo;
-use think\Controller;
 
-class Index extends Controller
+
+class Index extends Base
 {
     //初始页
     public function index()

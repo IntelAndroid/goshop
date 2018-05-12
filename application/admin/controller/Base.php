@@ -15,7 +15,9 @@ class Base extends Controller{
     public function __construct(Request $request = null)
     {
         parent::__construct($request);
-
+        if (!isset($_SESSION['user_login']) && empty($_SESSION['user_login'])){
+            $this->redirect(url('/admin/login/in_v'));
+        }
 
 
     }
